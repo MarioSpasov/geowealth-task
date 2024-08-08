@@ -1,4 +1,4 @@
-# Pycom Frontend Take-home Exercise
+# Geowealth Frontend Take-home Exercise
 
 Hi there! Here is a coding exercise to help us assess your technical skills.
 We recommend you focus on the core requirements first, then work on any 
