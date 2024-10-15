@@ -1,0 +1,17 @@
+.autocompleteWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-bottom: 20px;
+  height: 200px;
+  border: 1px solid rgba(73, 73, 73, 0.1);
+  border-radius: 10px;
+  width: 700px;
+
+  .autocompleteSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 25%;
+  }
+}

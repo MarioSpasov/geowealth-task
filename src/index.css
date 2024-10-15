@@ -1,60 +1,86 @@
-body {
-  margin: 0;
-  padding: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-.form-group {
-  width: 200px;
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #0056b3;
+}
+
+button {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+input,
+textarea {
+  font-family: inherit;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  outline: none;
+  font-size: 1rem;
+}
+
+input:hover,
+textarea:hover {
+  cursor: pointer;
+  border: 1px solid #333;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #007bff;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 ul {
   list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.results {
-  border: 1px solid #ccc;
-  border-top: 0;
-  width: 100%;
-  padding: 5px 0;
-  max-height: 200px;
-  overflow-y: scroll;
-}
-
-.result {
-  padding: 5px;
-  cursor: pointer;
-}
-.result:hover {
-  background-color: #eee;
-}
-
-form {
-  display: flex;
-}
-
-.form-group + .form-group {
-  margin-left: 50px;
-}
-
-input {
-  display: block;
-  width: 100%;
-  padding: 5px;
-  border: 1px solid #ccc;
+  padding-left: 0;
 }
