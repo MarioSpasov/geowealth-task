@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 export interface HistoryProps {
   text: string;
@@ -16,12 +16,12 @@ export interface AutocomlpeteDataStore {
   autocompletePrefs: PrefsValuesProps;
 
   setAutocompletePrefs: (prefs: PrefsValuesProps) => void;
-  // setPrefsFromStore: (prefs: PrefsValuesProps) => void;
+  setPrefsFromsStorage: (prefs: PrefsValuesProps) => void;
 }
 
 enum AutocompleteOptions {
-  State = "State",
-  User = "User",
+  State = 'State',
+  User = 'User',
 }
 
 const initialValues = {
@@ -66,13 +66,18 @@ export const useAutocomlpeteDataStore = create<AutocomlpeteDataStore>(
         };
 
         // Save to local storage
-        saveToLocalStorage("autocompletePrefs", updatedPrefs);
+        saveToLocalStorage('autocompletePrefs', updatedPrefs);
 
         return {
           autocompletePrefs: updatedPrefs,
         };
       }),
 
-      // setPrefsFromStore: (prefs: PrefsValuesProps) => set((state) => {}))
+    setPrefsFromsStorage: (prefs: PrefsValuesProps) =>
+      set(() => {
+        return {
+          autocompletePrefs: prefs,
+        };
+      }),
   })
 );

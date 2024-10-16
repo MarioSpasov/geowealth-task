@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import InputSearch from '../../components/InputSearch/InputSearch.tsx';
 import StateOrUserToggle from '../StateOrUserToggle/StateOrUserToggle.tsx';
 import SearchHistory from '../SearchHistory/SearchHistory.tsx';
@@ -10,30 +10,31 @@ import { useAutocomlpeteDataStore } from '../../store/autocompleteDataStore.ts';
 interface AutocompleteProps {
   autocompleteId: string;
 }
-interface SearchValuesProps {
-  search: string;
-  id: string;
-}
 
 export default function Autocomplete({ autocompleteId }: AutocompleteProps) {
   const setAutocompletePrefs = useAutocomlpeteDataStore(
     (state) => state.setAutocompletePrefs
   );
-
-  const userPrefsFromStore = localStorage.getItem('autocompletePrefs');
+  const setPrefsFromsStorage = useAutocomlpeteDataStore(
+    (state) => state.setPrefsFromsStorage
+  );
 
   const [typeOfSearch, setTypeOfSearch] = useState<string>(
     AutocompleteOptions.State
   );
 
-  const [searchValue, setSearchValue] = useState<SearchValuesProps>({
-    search: '',
-    id: '',
-  });
+  // Load preferences from local storage on component mount
+  useEffect(() => {
+    const userPrefsFromStore = localStorage.getItem('autocompletePrefs');
+    if (userPrefsFromStore) {
+      const parsedPrefs = JSON.parse(userPrefsFromStore);
+      setPrefsFromsStorage(parsedPrefs);
+    }
+  }, [setPrefsFromsStorage]);
 
   const handleResetSearch = () => {
-    //Handle reset button
-    console.log('id', autocompleteId);
+    // Handle reset button
+    console.log('Reset search for id', autocompleteId);
   };
 
   const onChoose = (typeOfSearch: string, text: string, id: string) => {

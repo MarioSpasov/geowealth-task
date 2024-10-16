@@ -24,17 +24,14 @@ export default function SearchHistory({
   useEffect(() => {
     if (autocompletePrefs) {
       if (typeOfSearch === AutocompleteOptions.State) {
-        // Only update the history list if the statesHistory has actually changed
         setHistoryList((prev) => {
           const newHistory = [...autocompletePrefs.statesHistory];
-          // Compare previous history to avoid unnecessary re-renders
           if (JSON.stringify(prev) !== JSON.stringify(newHistory)) {
             return newHistory;
           }
           return prev;
         });
       } else {
-        // Same logic for usersHistory
         setHistoryList((prev) => {
           const newHistory = [...autocompletePrefs.usersHistory];
           if (JSON.stringify(prev) !== JSON.stringify(newHistory)) {
@@ -45,8 +42,6 @@ export default function SearchHistory({
       }
     }
   }, [typeOfSearch, autocompletePrefs]);
-
-  // if (!historyList || !historyList.length) return null;
 
   return (
     <div className={styles.searchHistoryWrapper}>
