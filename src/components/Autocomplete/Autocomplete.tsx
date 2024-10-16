@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import InputSearch from "../../components/InputSearch/InputSearch.tsx";
-import StateOrUserToggle from "../StateOrUserToggle/StateOrUserToggle.tsx";
-import SearchHistory from "../SearchHistory/SearchHistory.tsx";
-import { AutocompleteOptions } from "../../types/enums.ts";
-import Button from "../Button/Button.tsx";
-import styles from "./Autocomplete.module.scss";
-import { useAutocomlpeteDataStore } from "../../store/autocompleteDataStore.ts";
+import React, { useState } from 'react';
+import InputSearch from '../../components/InputSearch/InputSearch.tsx';
+import StateOrUserToggle from '../StateOrUserToggle/StateOrUserToggle.tsx';
+import SearchHistory from '../SearchHistory/SearchHistory.tsx';
+import { AutocompleteOptions } from '../../types/enums.ts';
+import Button from '../Button/Button.tsx';
+import styles from './Autocomplete.module.scss';
+import { useAutocomlpeteDataStore } from '../../store/autocompleteDataStore.ts';
 
 interface AutocompleteProps {
   autocompleteId: string;
@@ -20,21 +20,20 @@ export default function Autocomplete({ autocompleteId }: AutocompleteProps) {
     (state) => state.setAutocompletePrefs
   );
 
-const userPrefsFromStore = localStorage.getItem('autocompletePrefs')
-
+  const userPrefsFromStore = localStorage.getItem('autocompletePrefs');
 
   const [typeOfSearch, setTypeOfSearch] = useState<string>(
     AutocompleteOptions.State
   );
 
   const [searchValue, setSearchValue] = useState<SearchValuesProps>({
-    search: "",
-    id: "",
+    search: '',
+    id: '',
   });
 
   const handleResetSearch = () => {
     //Handle reset button
-    console.log("id", autocompleteId);
+    console.log('id', autocompleteId);
   };
 
   const onChoose = (typeOfSearch: string, text: string, id: string) => {

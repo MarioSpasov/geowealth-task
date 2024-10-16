@@ -54,7 +54,7 @@ export default function InputSearch({ typeOfSearch, onChoose }: InputProps) {
     ) {
       refetchStates();
     }
-  }, [searchValueUsers, typeOfSearch, filteredStates]);
+  }, [searchValueUsers, typeOfSearch, filteredStates, gitHubUsers]);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -92,8 +92,7 @@ export default function InputSearch({ typeOfSearch, onChoose }: InputProps) {
     [typeOfSearch, usStates]
   );
 
-  // Render item for react-window List
-  const renderRow = ({
+  const renderRowState = ({
     index,
     style,
   }: {
@@ -101,6 +100,7 @@ export default function InputSearch({ typeOfSearch, onChoose }: InputProps) {
     style: React.CSSProperties;
   }) => {
     const state = filteredStates[index];
+
     return (
       <div
         key={`${state.name}-${state.abbreviation}-${index}`}
@@ -112,6 +112,30 @@ export default function InputSearch({ typeOfSearch, onChoose }: InputProps) {
         }}
       >
         {state.name}
+      </div>
+    );
+  };
+
+  const renderRowUser = ({
+    index,
+    style,
+  }: {
+    index: number;
+    style: React.CSSProperties;
+  }) => {
+    const state = gitHubUsers.items[index];
+    debugger;
+    return (
+      <div
+        key={`${state.id}`}
+        style={style}
+        className={styles.listItem}
+        onClick={() => {
+          onChoose(typeOfSearch, state.id, state.login);
+          setSearchValueUsers(state.login);
+        }}
+      >
+        {state.login}
       </div>
     );
   };
@@ -131,6 +155,19 @@ export default function InputSearch({ typeOfSearch, onChoose }: InputProps) {
             placeholder={`Search for ${typeOfSearch}`}
             onChange={handleOnType}
           />
+          {gitHubUsers &&
+          gitHubUsers.items.length > 0 &&
+          searchValueUsers.trim() ? (
+            <List
+              className={styles.searchListWrapper}
+              height={150}
+              itemCount={filteredStates.length}
+              itemSize={35}
+              width={300}
+            >
+              {renderRowUser}
+            </List>
+          ) : null}
         </div>
       );
 
@@ -157,7 +194,7 @@ export default function InputSearch({ typeOfSearch, onChoose }: InputProps) {
               itemSize={35}
               width={300}
             >
-              {renderRow}
+              {renderRowState}
             </List>
           ) : null}
         </div>
