@@ -20,6 +20,9 @@ export default function Autocomplete({ autocompleteId }: AutocompleteProps) {
     (state) => state.setAutocompletePrefs
   );
 
+const userPrefsFromStore = localStorage.getItem('autocompletePrefs')
+
+
   const [typeOfSearch, setTypeOfSearch] = useState<string>(
     AutocompleteOptions.State
   );

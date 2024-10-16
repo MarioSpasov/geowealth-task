@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { AutocompleteOptions } from "../../types/enums.ts";
-import { useAutocomlpeteDataStore } from "../../store/autocompleteDataStore.ts";
-import styles from "./SearchHistory.module.scss";
+import React, { useEffect, useState } from 'react';
+import { AutocompleteOptions } from '../../types/enums.ts';
+import { useAutocomlpeteDataStore } from '../../store/autocompleteDataStore.ts';
+import styles from './SearchHistory.module.scss';
 
 interface SearchHistoryProps {
   autocompleteName: string;
@@ -46,7 +46,7 @@ export default function SearchHistory({
     }
   }, [typeOfSearch, autocompletePrefs]);
 
-  if (!historyList || !historyList.length) return null;
+  // if (!historyList || !historyList.length) return null;
 
   return (
     <div className={styles.searchHistoryWrapper}>

@@ -16,6 +16,7 @@
     align-content: flex-start;
     justify-content: flex-start;
     align-items: baseline;
+    overflow-y: scroll;
 
     .historyItem {
       height: 25px;

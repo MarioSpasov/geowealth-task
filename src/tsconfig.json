@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "jsx": "react", 
+    "esModuleInterop": true,   
+    "module": "es2015",   
+    "moduleResolution": "bundler",   
+    "allowImportingTsExtensions": true,  
+    "noEmit": true,   
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules"
+      }
+    ]
+  }
+}

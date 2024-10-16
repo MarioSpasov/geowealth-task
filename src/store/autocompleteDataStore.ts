@@ -16,6 +16,7 @@ export interface AutocomlpeteDataStore {
   autocompletePrefs: PrefsValuesProps;
 
   setAutocompletePrefs: (prefs: PrefsValuesProps) => void;
+  // setPrefsFromStore: (prefs: PrefsValuesProps) => void;
 }
 
 enum AutocompleteOptions {
@@ -71,5 +72,7 @@ export const useAutocomlpeteDataStore = create<AutocomlpeteDataStore>(
           autocompletePrefs: updatedPrefs,
         };
       }),
+
+      // setPrefsFromStore: (prefs: PrefsValuesProps) => set((state) => {}))
   })
 );

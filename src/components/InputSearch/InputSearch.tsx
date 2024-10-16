@@ -1,38 +1,40 @@
-import React, { useCallback, useEffect, useState } from "react";
-import throttle from "lodash/throttle";
-import { useFetchUsStates } from "../../hooks/useFetchUsStates.ts";
-import { AutocompleteOptions } from "../../types/enums.ts";
-import { useFetchGitHubUsers } from "../../hooks/useFetchGitHubUsers.ts";
-import { FixedSizeList as List } from "react-window";
+import React, { useCallback, useEffect, useState, useRef } from 'react';
+import throttle from 'lodash/throttle';
+import { useFetchUsStates } from '../../hooks/useFetchUsStates.ts';
+import { AutocompleteOptions } from '../../types/enums.ts';
+import { useFetchGitHubUsers } from '../../hooks/useFetchGitHubUsers.ts';
+import { FixedSizeList as List } from 'react-window';
 
-import styles from "./InputSearch.module.scss";
+import styles from './InputSearch.module.scss';
 
 interface InputProps {
   typeOfSearch: string;
   onChoose: (typeOfSearch: string, text: string, id: string) => void;
 }
+
 interface UsStatesProps {
   name: string;
   abbreviation: string;
 }
 
 export default function InputSearch({ typeOfSearch, onChoose }: InputProps) {
-  const [searchValueStates, setSearchValueStates] = useState<string>("");
-  const [searchValueUsers, setSearchValueUsers] = useState<string>("");
+  const [searchValueStates, setSearchValueStates] = useState<string>('');
+  const [searchValueUsers, setSearchValueUsers] = useState<string>('');
   const [filteredStates, setFilteredStates] = useState<UsStatesProps[]>([]);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const {
     data: usStates = [],
     isLoading: isStatesLoading,
     isError: isStatesError,
     refetch: refetchStates,
-    error: errorStates,
   } = useFetchUsStates();
 
   const {
     data: gitHubUsers,
     isLoading: isUsersLoading,
-    isError: isUsersError,
     refetch: refetchUsers,
     isFetching: isFetchingUsers,
   } = useFetchGitHubUsers(searchValueUsers);
@@ -52,16 +54,31 @@ export default function InputSearch({ typeOfSearch, onChoose }: InputProps) {
     ) {
       refetchStates();
     }
-  }, [searchValueUsers, searchValueStates, typeOfSearch, filteredStates]);
+  }, [searchValueUsers, typeOfSearch, filteredStates]);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setSearchValueStates('');
+    }
+  };
 
   const handleOnType = useCallback(
     throttle((e: React.ChangeEvent<HTMLInputElement>) => {
-      let value = "";
-      value = e.target.value.toLowerCase();
+      let value = e.target.value.toLowerCase();
       if (typeOfSearch === AutocompleteOptions.State) {
         setSearchValueStates(value);
-        if (value.trim() !== "") {
-          const filtered = usStates.filter((state: any) =>
+        if (value.trim() !== '') {
+          const filtered = usStates.filter((state: UsStatesProps) =>
             state.name.toLowerCase().includes(value)
           );
           setFilteredStates(filtered);
@@ -72,8 +89,32 @@ export default function InputSearch({ typeOfSearch, onChoose }: InputProps) {
         setSearchValueUsers(value);
       }
     }, 500),
-    [typeOfSearch]
+    [typeOfSearch, usStates]
   );
+
+  // Render item for react-window List
+  const renderRow = ({
+    index,
+    style,
+  }: {
+    index: number;
+    style: React.CSSProperties;
+  }) => {
+    const state = filteredStates[index];
+    return (
+      <div
+        key={`${state.name}-${state.abbreviation}-${index}`}
+        style={style}
+        className={styles.listItem}
+        onClick={() => {
+          onChoose(typeOfSearch, state.abbreviation, state.name);
+          setSearchValueStates(state.name);
+        }}
+      >
+        {state.name}
+      </div>
+    );
+  };
 
   // HANDLE USERS SEARCH
   switch (typeOfSearch) {
@@ -98,7 +139,7 @@ export default function InputSearch({ typeOfSearch, onChoose }: InputProps) {
       return (
         <div className={styles.inputSearchWrapper}>
           <label htmlFor="state-search">
-            Search results: {usStates?.length || 0}
+            Search results: {usStates.length || 0}
           </label>
           <input
             type="search"
@@ -106,42 +147,19 @@ export default function InputSearch({ typeOfSearch, onChoose }: InputProps) {
             name={AutocompleteOptions.State}
             placeholder={`Search for ${typeOfSearch}`}
             onChange={handleOnType}
+            value={searchValueStates}
           />
-          {/* {filteredStates.length === 0 && (
-            <span className={styles.error}>No match</span>
-          )} */}
-          <>
-            {/* {isStatesError && (
-              <span className={styles.error}>Something went wrong!</span>
-            )} */}
-            {filteredStates.length && (
-              <ul>
-                {usStates && usStates.length && searchValueStates && (
-                  <div className={styles.searchListWrapper}>
-                    <ul>
-                      {filteredStates &&
-                        filteredStates.map((usState: UsStatesProps) => {
-                          return (
-                            <li
-                              key={`${usState.name}-${usState.abbreviation}`}
-                              onClick={() =>
-                                onChoose(
-                                  typeOfSearch,
-                                  usState.abbreviation,
-                                  usState.name
-                                )
-                              }
-                            >
-                              {usState.name}
-                            </li>
-                          );
-                        })}
-                    </ul>
-                  </div>
-                )}
-              </ul>
-            )}
-          </>
+          {filteredStates.length > 0 && searchValueStates.trim() ? (
+            <List
+              className={styles.searchListWrapper}
+              height={150}
+              itemCount={filteredStates.length}
+              itemSize={35}
+              width={300}
+            >
+              {renderRow}
+            </List>
+          ) : null}
         </div>
       );
 
