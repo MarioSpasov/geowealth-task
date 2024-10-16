@@ -5,18 +5,23 @@ import SearchHistory from "../SearchHistory/SearchHistory.tsx";
 import { AutocompleteOptions } from "../../types/enums.ts";
 import Button from "../Button/Button.tsx";
 import styles from "./Autocomplete.module.scss";
+import { useAutocomlpeteDataStore } from "../../store/autocompleteDataStore.ts";
 
 interface AutocompleteProps {
-  id: string;
+  autocompleteId: string;
 }
 interface SearchValuesProps {
   search: string;
   id: string;
 }
 
-export default function Autocomplete({ id }: AutocompleteProps) {
+export default function Autocomplete({ autocompleteId }: AutocompleteProps) {
+  const setAutocompletePrefs = useAutocomlpeteDataStore(
+    (state) => state.setAutocompletePrefs
+  );
+
   const [typeOfSearch, setTypeOfSearch] = useState<string>(
-    AutocompleteOptions.State || "State"
+    AutocompleteOptions.State
   );
 
   const [searchValue, setSearchValue] = useState<SearchValuesProps>({
@@ -26,14 +31,23 @@ export default function Autocomplete({ id }: AutocompleteProps) {
 
   const handleResetSearch = () => {
     //Handle reset button
-    console.log("id", id);
+    console.log("id", autocompleteId);
   };
 
-  const onChoose = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e?.target?.value.trim()) {
-      setSearchValue({
-        search: e?.target?.value.trim(),
-        id: e?.target?.value.trim(),
+  const onChoose = (typeOfSearch: string, text: string, id: string) => {
+    if (typeOfSearch === AutocompleteOptions.State) {
+      setAutocompletePrefs({
+        autocompleteName: autocompleteId,
+        stateOrUserToggle: typeOfSearch,
+        statesHistory: [{ text: text, id: id }],
+        usersHistory: [],
+      });
+    } else {
+      setAutocompletePrefs({
+        autocompleteName: autocompleteId,
+        stateOrUserToggle: typeOfSearch,
+        statesHistory: [],
+        usersHistory: [{ text: text, id: id }],
       });
     }
   };
@@ -51,7 +65,10 @@ export default function Autocomplete({ id }: AutocompleteProps) {
         <Button onClick={handleResetSearch} labelText="Reset" />
       </div>
       <div className={styles.autocompleteSection}>
-        <SearchHistory />
+        <SearchHistory
+          autocompleteName={autocompleteId}
+          typeOfSearch={typeOfSearch}
+        />
       </div>
     </div>
   );

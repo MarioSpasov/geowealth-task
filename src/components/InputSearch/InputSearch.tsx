@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from "react";
-import Layout from "../Layout/Layout.tsx";
 import throttle from "lodash/throttle";
 import { useFetchUsStates } from "../../hooks/useFetchUsStates.ts";
 import { AutocompleteOptions } from "../../types/enums.ts";
@@ -10,7 +9,7 @@ import styles from "./InputSearch.module.scss";
 
 interface InputProps {
   typeOfSearch: string;
-  onChoose: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChoose: (typeOfSearch: string, text: string, id: string) => void;
 }
 interface UsStatesProps {
   name: string;
@@ -52,15 +51,8 @@ export default function InputSearch({ typeOfSearch, onChoose }: InputProps) {
       (usStates.length === 0 || filteredStates.length === 0)
     ) {
       refetchStates();
-    } else {
-      setFilteredStates([...usStates]);
     }
   }, [searchValueUsers, searchValueStates, typeOfSearch, filteredStates]);
-
-  useEffect(() => {
-    setSearchValueStates("");
-    setSearchValueUsers("");
-  }, [typeOfSearch]);
 
   const handleOnType = useCallback(
     throttle((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,7 +66,7 @@ export default function InputSearch({ typeOfSearch, onChoose }: InputProps) {
           );
           setFilteredStates(filtered);
         } else {
-          setFilteredStates([...usStates]); // If no input, show all states
+          setFilteredStates([...usStates]);
         }
       } else if (typeOfSearch === AutocompleteOptions.User) {
         setSearchValueUsers(value);
@@ -83,6 +75,7 @@ export default function InputSearch({ typeOfSearch, onChoose }: InputProps) {
     [typeOfSearch]
   );
 
+  // HANDLE USERS SEARCH
   switch (typeOfSearch) {
     case AutocompleteOptions.User:
       return (
@@ -100,6 +93,7 @@ export default function InputSearch({ typeOfSearch, onChoose }: InputProps) {
         </div>
       );
 
+    // HANDLE US STATES SEARCH
     case AutocompleteOptions.State:
       return (
         <div className={styles.inputSearchWrapper}>
@@ -128,7 +122,16 @@ export default function InputSearch({ typeOfSearch, onChoose }: InputProps) {
                       {filteredStates &&
                         filteredStates.map((usState: UsStatesProps) => {
                           return (
-                            <li key={`${usState.name}-${usState.abbreviation}`}>
+                            <li
+                              key={`${usState.name}-${usState.abbreviation}`}
+                              onClick={() =>
+                                onChoose(
+                                  typeOfSearch,
+                                  usState.abbreviation,
+                                  usState.name
+                                )
+                              }
+                            >
                               {usState.name}
                             </li>
                           );

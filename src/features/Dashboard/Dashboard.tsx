@@ -8,8 +8,8 @@ export default function Dashboard() {
   return (
     <Layout>
       <div className={styles.dashboardWrapper}>
-        <Autocomplete id={AutocompleteUseage.FirstAutoComlpete} />
-        <Autocomplete id={AutocompleteUseage.SecondAutoComlpete} />
+        <Autocomplete autocompleteId={AutocompleteUseage.FirstAutoComlpete} />
+        <Autocomplete autocompleteId={AutocompleteUseage.SecondAutoComlpete} />
         {/* <Autocomplete id={AutocompleteUseage.ThirdAutoComlpete} /> */}
       </div>
     </Layout>

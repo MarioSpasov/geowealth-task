@@ -9,5 +9,27 @@
     width: 200px;
     border: 1px solid #808080;
     border-radius: 5px;
+    font-size: 12px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: baseline;
+
+    .historyItem {
+      height: 25px;
+      margin-right: 5px;
+      padding: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:hover {
+        background-color: #808080;
+        color: white;
+        cursor: pointer;
+      }
+    }
   }
 }

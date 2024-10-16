@@ -1,4 +1,4 @@
-import { useAutocomlpeteDataStore } from "../store/AutocompleteDataStore/autocompleteDataStore";
+import { useAutocomlpeteDataStore } from "../store/autocompleteDataStore";
 
 export const loadPrefsFromLocalStorage = () => {
   const storedPrefs = localStorage.getItem("autocompletePrefs");
