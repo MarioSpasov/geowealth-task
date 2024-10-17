@@ -6,38 +6,39 @@ import { AutocompleteOptions } from '../../types/enums.ts';
 import Button from '../Button/Button.tsx';
 import styles from './Autocomplete.module.scss';
 import { useAutocomlpeteDataStore } from '../../store/autocompleteDataStore.ts';
-
-interface AutocompleteProps {
-  autocompleteId: string;
-}
+import { AutocompleteProps } from '../../types/interfaces.ts';
 
 export default function Autocomplete({ autocompleteId }: AutocompleteProps) {
+  const setStateOrUser = useAutocomlpeteDataStore(
+    (state) => state.setStateOrUser
+  );
   const setAutocompletePrefs = useAutocomlpeteDataStore(
     (state) => state.setAutocompletePrefs
   );
-  const setPrefsFromsStorage = useAutocomlpeteDataStore(
-    (state) => state.setPrefsFromsStorage
+  const autocompletePrefs = useAutocomlpeteDataStore(
+    (state) => state.autocompletePrefs
   );
+  const setReset = useAutocomlpeteDataStore((state) => state.setReset);
 
   const [typeOfSearch, setTypeOfSearch] = useState<string>(
     AutocompleteOptions.State
   );
 
-  // Load preferences from local storage on component mount
   useEffect(() => {
-    const userPrefsFromStore = localStorage.getItem('autocompletePrefs');
-    if (userPrefsFromStore) {
-      const parsedPrefs = JSON.parse(userPrefsFromStore);
-      setPrefsFromsStorage(parsedPrefs);
+    if (autocompletePrefs && autocompletePrefs[autocompleteId]) {
+      setTypeOfSearch(autocompletePrefs[autocompleteId].stateOrUserToggle);
     }
-  }, [setPrefsFromsStorage]);
+  }, [autocompletePrefs]);
 
   const handleResetSearch = () => {
-    // Handle reset button
-    console.log('Reset search for id', autocompleteId);
+    setReset(autocompleteId);
   };
 
-  const onChoose = (typeOfSearch: string, text: string, id: string) => {
+  const handleSaveToggleValue = (toggleValue: string) => {
+    setStateOrUser(autocompleteId, toggleValue);
+  };
+
+  const onSubmit = (typeOfSearch: string, text: string, id: string) => {
     if (typeOfSearch === AutocompleteOptions.State) {
       setAutocompletePrefs({
         autocompleteName: autocompleteId,
@@ -58,12 +59,13 @@ export default function Autocomplete({ autocompleteId }: AutocompleteProps) {
   return (
     <div className={styles.autocompleteWrapper}>
       <div className={styles.autocompleteSection}>
-        <InputSearch typeOfSearch={typeOfSearch} onChoose={onChoose} />
+        <InputSearch typeOfSearch={typeOfSearch} onSubmit={onSubmit} />
       </div>
       <div className={styles.autocompleteSection}>
         <StateOrUserToggle
           typeOfSearch={typeOfSearch}
           setTypeOfSearch={setTypeOfSearch}
+          handleSaveToggleValue={handleSaveToggleValue}
         />
         <Button onClick={handleResetSearch} labelText="Reset" />
       </div>

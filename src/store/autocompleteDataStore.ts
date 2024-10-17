@@ -1,23 +1,5 @@
 import { create } from 'zustand';
-
-export interface HistoryProps {
-  text: string;
-  id: string;
-}
-
-export interface PrefsValuesProps {
-  autocompleteName: string;
-  stateOrUserToggle: string;
-  statesHistory: HistoryProps[];
-  usersHistory: HistoryProps[];
-}
-
-export interface AutocomlpeteDataStore {
-  autocompletePrefs: PrefsValuesProps;
-
-  setAutocompletePrefs: (prefs: PrefsValuesProps) => void;
-  setPrefsFromsStorage: (prefs: PrefsValuesProps) => void;
-}
+import { AutocomlpeteDataStore, PrefsValuesProps } from '../types/interfaces';
 
 enum AutocompleteOptions {
   State = 'State',
@@ -65,7 +47,6 @@ export const useAutocomlpeteDataStore = create<AutocomlpeteDataStore>(
           [prefs.autocompleteName]: { ...existingPrefs },
         };
 
-        // Save to local storage
         saveToLocalStorage('autocompletePrefs', updatedPrefs);
 
         return {
@@ -77,6 +58,41 @@ export const useAutocomlpeteDataStore = create<AutocomlpeteDataStore>(
       set(() => {
         return {
           autocompletePrefs: prefs,
+        };
+      }),
+
+    setStateOrUser: (autocompleteName: string, stateOrUserToggle: string) =>
+      set((state) => {
+        if (state.autocompletePrefs[autocompleteName]) {
+          const updatedPrefs = {
+            ...state.autocompletePrefs,
+            [autocompleteName]: {
+              ...state.autocompletePrefs[autocompleteName],
+              stateOrUserToggle: stateOrUserToggle,
+            },
+          };
+
+          saveToLocalStorage('autocompletePrefs', updatedPrefs);
+
+          return {
+            autocompletePrefs: updatedPrefs,
+          };
+        } else {
+          return state;
+        }
+      }),
+
+    setReset: (autocompleteName: string) =>
+      set((state) => {
+        const updatedPrefs = {
+          ...state.autocompletePrefs,
+        };
+        updatedPrefs[autocompleteName].statesHistory.length = 0;
+        updatedPrefs[autocompleteName].usersHistory.length = 0;
+        saveToLocalStorage('autocompletePrefs', updatedPrefs);
+
+        return {
+          autocompletePrefs: updatedPrefs,
         };
       }),
   })

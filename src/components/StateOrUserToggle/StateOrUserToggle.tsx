@@ -1,22 +1,30 @@
-import React, { useState } from "react";
-import styles from "./StateOrUserToggle.module.scss";
-import { AutocompleteOptions } from "../../types/enums.ts";
+import React, { useEffect, useState } from 'react';
+import styles from './StateOrUserToggle.module.scss';
+import { AutocompleteOptions } from '../../types/enums.ts';
 
-export default function StateOrUserToggle({ typeOfSearch, setTypeOfSearch }) {
+export default function StateOrUserToggle({
+  typeOfSearch,
+  setTypeOfSearch,
+  handleSaveToggleValue,
+}) {
   const handleToggleClick = () => {
     if (typeOfSearch === AutocompleteOptions.State) {
       setTypeOfSearch(AutocompleteOptions.User);
+      handleSaveToggleValue(AutocompleteOptions.User);
     } else {
       setTypeOfSearch(AutocompleteOptions.State);
+      handleSaveToggleValue(AutocompleteOptions.State);
     }
   };
 
   const handleClickState = () => {
     setTypeOfSearch(AutocompleteOptions.State);
+    handleSaveToggleValue(AutocompleteOptions.State);
   };
 
   const handleClickUser = () => {
     setTypeOfSearch(AutocompleteOptions.User);
+    handleSaveToggleValue(AutocompleteOptions.User);
   };
 
   return (

@@ -6,18 +6,9 @@ import { useFetchGitHubUsers } from '../../hooks/useFetchGitHubUsers.ts';
 import { FixedSizeList as List } from 'react-window';
 
 import styles from './InputSearch.module.scss';
+import { InputProps, UsStatesProps } from '../../types/interfaces.ts';
 
-interface InputProps {
-  typeOfSearch: string;
-  onChoose: (typeOfSearch: string, text: string, id: string) => void;
-}
-
-interface UsStatesProps {
-  name: string;
-  abbreviation: string;
-}
-
-export default function InputSearch({ typeOfSearch, onChoose }: InputProps) {
+export default function InputSearch({ typeOfSearch, onSubmit }: InputProps) {
   const [searchValueStates, setSearchValueStates] = useState<string>('');
   const [searchValueUsers, setSearchValueUsers] = useState<string>('');
   const [filteredStates, setFilteredStates] = useState<UsStatesProps[]>([]);
@@ -87,7 +78,7 @@ export default function InputSearch({ typeOfSearch, onChoose }: InputProps) {
         style={style}
         className={styles.listItem}
         onClick={() => {
-          onChoose(typeOfSearch, state.abbreviation, state.name);
+          onSubmit(typeOfSearch, state.abbreviation, state.name);
           setSearchValueStates(state.name);
         }}
       >
@@ -112,7 +103,7 @@ export default function InputSearch({ typeOfSearch, onChoose }: InputProps) {
         style={style}
         className={styles.listItem}
         onClick={() => {
-          onChoose(typeOfSearch, user.id, user.login);
+          onSubmit(typeOfSearch, user.id, user.login);
           setSearchValueUsers(user.login);
         }}
       >
@@ -136,6 +127,7 @@ export default function InputSearch({ typeOfSearch, onChoose }: InputProps) {
             placeholder={`Search for ${typeOfSearch}`}
             onChange={handleOnType}
             value={searchValueUsers || ''}
+            autoComplete="my-field-name1"
           />
           {isUsersLoading ? (
             <span>Loading...</span>

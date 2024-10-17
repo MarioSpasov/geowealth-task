@@ -1,11 +1,7 @@
-import React, { useEffect } from "react";
-import Layout from "../Layout/Layout.tsx";
-import styles from "./Button.module.scss";
-
-interface ButtonProps {
-  onClick: () => void;
-  labelText: string;
-}
+import React, { useEffect } from 'react';
+import Layout from '../Layout/Layout.tsx';
+import styles from './Button.module.scss';
+import { ButtonProps } from '../../types/interfaces.ts';
 
 export default function Button({ onClick, labelText }: ButtonProps) {
   return (

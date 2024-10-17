@@ -2,15 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { AutocompleteOptions } from '../../types/enums.ts';
 import { useAutocomlpeteDataStore } from '../../store/autocompleteDataStore.ts';
 import styles from './SearchHistory.module.scss';
-
-interface SearchHistoryProps {
-  autocompleteName: string;
-  typeOfSearch: string;
-}
-interface HistoryListProps {
-  text: string;
-  id: string;
-}
+import {
+  HistoryListProps,
+  SearchHistoryProps,
+} from '../../types/interfaces.ts';
 
 export default function SearchHistory({
   autocompleteName,
@@ -19,29 +14,18 @@ export default function SearchHistory({
   const autocompletePrefs = useAutocomlpeteDataStore(
     (state) => state.autocompletePrefs[autocompleteName]
   );
+  const prefs = useAutocomlpeteDataStore((state) => state.autocompletePrefs);
   const [historyList, setHistoryList] = useState<HistoryListProps[]>([]);
 
   useEffect(() => {
     if (autocompletePrefs) {
       if (typeOfSearch === AutocompleteOptions.State) {
-        setHistoryList((prev) => {
-          const newHistory = [...autocompletePrefs.statesHistory];
-          if (JSON.stringify(prev) !== JSON.stringify(newHistory)) {
-            return newHistory;
-          }
-          return prev;
-        });
-      } else {
-        setHistoryList((prev) => {
-          const newHistory = [...autocompletePrefs.usersHistory];
-          if (JSON.stringify(prev) !== JSON.stringify(newHistory)) {
-            return newHistory;
-          }
-          return prev;
-        });
+        setHistoryList([...autocompletePrefs.statesHistory]);
+      } else if (typeOfSearch === AutocompleteOptions.User) {
+        setHistoryList([...autocompletePrefs.usersHistory]);
       }
     }
-  }, [typeOfSearch, autocompletePrefs]);
+  }, [typeOfSearch, autocompletePrefs, prefs]);
 
   return (
     <div className={styles.searchHistoryWrapper}>
