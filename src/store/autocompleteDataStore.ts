@@ -79,7 +79,20 @@ export const useAutocomlpeteDataStore = create<AutocomlpeteDataStore>(
             autocompletePrefs: updatedPrefs,
           };
         } else {
-          return state;
+          const updatedPrefs = {
+            ...state.autocompletePrefs,
+            [autocompleteName]: {
+              ...state.autocompletePrefs[autocompleteName],
+              stateOrUserToggle: stateOrUserToggle,
+              autocompleteName: autocompleteName,
+              statesHistory: [],
+              usersHistory: [],
+            },
+          };
+
+          return {
+            autocompletePrefs: updatedPrefs,
+          };
         }
       }),
 
@@ -88,12 +101,18 @@ export const useAutocomlpeteDataStore = create<AutocomlpeteDataStore>(
         const updatedPrefs = {
           ...state.autocompletePrefs,
         };
-        updatedPrefs[autocompleteName].statesHistory.length = 0;
-        updatedPrefs[autocompleteName].usersHistory.length = 0;
-        updatedPrefs[autocompleteName].stateOrUserToggle =
-          AutocompleteOptions.State;
-        saveToLocalStorage('autocompletePrefs', updatedPrefs);
-        state.triggerReset = !state.triggerReset;
+        if (updatedPrefs[autocompleteName]) {
+          if (updatedPrefs[autocompleteName].statesHistory) {
+            updatedPrefs[autocompleteName].statesHistory.length = 0;
+          }
+          if (updatedPrefs[autocompleteName].usersHistory) {
+            updatedPrefs[autocompleteName].usersHistory.length = 0;
+          }
+          updatedPrefs[autocompleteName].stateOrUserToggle =
+            AutocompleteOptions.State;
+          saveToLocalStorage('autocompletePrefs', updatedPrefs);
+          state.triggerReset = !state.triggerReset;
+        }
         return {
           autocompletePrefs: updatedPrefs,
         };

@@ -18,11 +18,21 @@
         background-color: rgba(116, 116, 116, 0.25);
       }
     }
+  }
+  .errorMessage {
+    color: red;
+    font-size: 12px;
+  }
 
+  .loaderWrapper {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
     .loader {
-      width: 20px;
-      height: 20px;
-      border: 1px solid rgba(128, 128, 128, 0.55);
+      width: 18px;
+      height: 18px;
+      border: 1px solid rgba(116, 116, 116);
       border-bottom-color: transparent;
       border-radius: 50%;
       display: inline-block;
@@ -30,9 +40,18 @@
       animation: rotation 1s linear infinite;
     }
 
-    .error {
-      color: red;
-      font-size: 12px;
+    @keyframes rotation {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .isLoading {
+      font-size: 10px;
+      font-style: italic;
     }
   }
 }

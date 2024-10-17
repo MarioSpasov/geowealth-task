@@ -139,7 +139,10 @@ export default function InputSearch({ typeOfSearch, onSubmit }: InputProps) {
             autoComplete="my-field-name1"
           />
           {isUsersLoading || isFetchingUsers ? (
-            <span>Loading...</span>
+            <div className={styles.loaderWrapper}>
+              <span className={styles.loader}></span>
+              <span className={styles.isLoading}>Loading...</span>
+            </div>
           ) : gitHubUsers?.items?.length > 0 && searchValueUsers.trim() ? (
             <List
               className={styles.searchListWrapper}
@@ -151,7 +154,7 @@ export default function InputSearch({ typeOfSearch, onSubmit }: InputProps) {
               {renderRowUser}
             </List>
           ) : isUsersError ? (
-            <span className={styles.error}>Something went wrong</span>
+            <span className={styles.errorMessage}>Something went wrong</span>
           ) : searchValueUsers ? (
             <span>No states found</span>
           ) : null}
@@ -174,7 +177,10 @@ export default function InputSearch({ typeOfSearch, onSubmit }: InputProps) {
             value={searchValueStates || ''}
           />
           {isStatesLoading || isFetchingStates ? (
-            <span>Loading...</span>
+            <div className={styles.loaderWrapper}>
+              <span className={styles.loader}></span>
+              <span className={styles.isLoading}>Loading...</span>
+            </div>
           ) : filteredStates.length > 0 && searchValueStates.trim() ? (
             <List
               className={styles.searchListWrapper}
@@ -186,7 +192,7 @@ export default function InputSearch({ typeOfSearch, onSubmit }: InputProps) {
               {renderRowState}
             </List>
           ) : isStatesError ? (
-            <span className={styles.error}>Something went wrong</span>
+            <span className={styles.errorMessage}>Something went wrong</span>
           ) : searchValueStates ? (
             <span>No states found</span>
           ) : null}
