@@ -1,10 +1,14 @@
 export enum AutocompleteOptions {
-  State = "State",
-  User = "User",
+  State = 'State',
+  User = 'User',
 }
 
 export enum AutocompleteUseage {
-  FirstAutoComlpete = "firstAutoComlpete",
-  SecondAutoComlpete = "secondAutoComlpete",
-  ThirdAutoComlpete = "thirdAutoComlpete",
+  FirstAutoComlpete = 'firstAutoComlpete',
+  SecondAutoComlpete = 'secondAutoComlpete',
+  ThirdAutoComlpete = 'thirdAutoComlpete',
+}
+
+export enum RoutesEnum {
+  Dashboard = '/',
 }

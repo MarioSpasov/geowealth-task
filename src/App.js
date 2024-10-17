@@ -1,8 +1,9 @@
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import Dashboard from "./features/Dashboard/Dashboard.tsx";
+import Dashboard from './features/Dashboard/Dashboard.tsx';
+import { RoutesEnum } from './types/enums.ts';
 
 const queryClient = new QueryClient();
 
@@ -12,7 +13,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <Routes>
-            <Route path={"/"} element={<Dashboard />} />
+            <Route path={RoutesEnum.Dashboard} element={<Dashboard />} />
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>

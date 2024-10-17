@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styles from './StateOrUserToggle.module.scss';
 import { AutocompleteOptions } from '../../types/enums.ts';
 

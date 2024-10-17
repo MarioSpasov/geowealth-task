@@ -9,6 +9,7 @@ export default function Dashboard() {
   const setPrefsFromsStorage = useAutocomlpeteDataStore(
     (state) => state.setPrefsFromsStorage
   );
+
   useEffect(() => {
     const userPrefsFromStore = localStorage.getItem('autocompletePrefs');
     if (userPrefsFromStore) {
@@ -16,6 +17,7 @@ export default function Dashboard() {
       setPrefsFromsStorage(parsedPrefs);
     }
   }, []);
+
   return (
     <Layout>
       <div className={styles.dashboardWrapper}>

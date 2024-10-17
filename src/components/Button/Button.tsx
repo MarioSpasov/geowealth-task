@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import Layout from '../Layout/Layout.tsx';
+import React from 'react';
 import styles from './Button.module.scss';
 import { ButtonProps } from '../../types/interfaces.ts';
 

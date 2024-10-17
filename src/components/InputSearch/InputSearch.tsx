@@ -20,11 +20,13 @@ export default function InputSearch({ typeOfSearch, onSubmit }: InputProps) {
     isLoading: isStatesLoading,
     isError: isStatesError,
     refetch: refetchStates,
+    isFetching: isFetchingStates,
   } = useFetchUsStates();
 
   const {
     data: gitHubUsers,
     isLoading: isUsersLoading,
+    isError: isUsersError,
     refetch: refetchUsers,
     isFetching: isFetchingUsers,
   } = useFetchGitHubUsers(searchValueUsers);
@@ -136,7 +138,7 @@ export default function InputSearch({ typeOfSearch, onSubmit }: InputProps) {
             value={searchValueUsers || ''}
             autoComplete="my-field-name1"
           />
-          {isUsersLoading ? (
+          {isUsersLoading || isFetchingUsers ? (
             <span>Loading...</span>
           ) : gitHubUsers?.items?.length > 0 && searchValueUsers.trim() ? (
             <List
@@ -148,9 +150,11 @@ export default function InputSearch({ typeOfSearch, onSubmit }: InputProps) {
             >
               {renderRowUser}
             </List>
-          ) : (
-            <span>No users found</span>
-          )}
+          ) : isUsersError ? (
+            <span className={styles.error}>Something went wrong</span>
+          ) : searchValueUsers ? (
+            <span>No states found</span>
+          ) : null}
         </div>
       );
 
@@ -169,7 +173,7 @@ export default function InputSearch({ typeOfSearch, onSubmit }: InputProps) {
             onChange={handleOnType}
             value={searchValueStates || ''}
           />
-          {isStatesLoading ? (
+          {isStatesLoading || isFetchingStates ? (
             <span>Loading...</span>
           ) : filteredStates.length > 0 && searchValueStates.trim() ? (
             <List
@@ -181,9 +185,11 @@ export default function InputSearch({ typeOfSearch, onSubmit }: InputProps) {
             >
               {renderRowState}
             </List>
-          ) : (
+          ) : isStatesError ? (
+            <span className={styles.error}>Something went wrong</span>
+          ) : searchValueStates ? (
             <span>No states found</span>
-          )}
+          ) : null}
         </div>
       );
 

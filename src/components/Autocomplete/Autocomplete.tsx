@@ -6,7 +6,7 @@ import { AutocompleteOptions } from '../../types/enums.ts';
 import Button from '../Button/Button.tsx';
 import styles from './Autocomplete.module.scss';
 import { useAutocomlpeteDataStore } from '../../store/autocompleteDataStore.ts';
-import { AutocompleteProps, ResetInputProps } from '../../types/interfaces.ts';
+import { AutocompleteProps } from '../../types/interfaces.ts';
 
 export default function Autocomplete({ autocompleteId }: AutocompleteProps) {
   const setStateOrUser = useAutocomlpeteDataStore(
