@@ -23,7 +23,7 @@ export default function Dashboard() {
       <div className={styles.dashboardWrapper}>
         <Autocomplete autocompleteId={AutocompleteUsage.FirstAutoComlpete} />
         <Autocomplete autocompleteId={AutocompleteUsage.SecondAutoComlpete} />
-        <Autocomplete autocompleteId={AutocompleteUsage.ThirdAutoComlpete} />
+        {/* <Autocomplete autocompleteId={AutocompleteUsage.ThirdAutoComlpete} /> */}
       </div>
     </Layout>
   );
