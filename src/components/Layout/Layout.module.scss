@@ -1,7 +1,9 @@
+@import '../../styles/varibales';
+
 .layout {
   max-width: 80%;
   margin: 40px auto;
   padding: 25px 10px;
   height: calc(100vh - 80px);
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  box-shadow: var(--box-shadow);
 }

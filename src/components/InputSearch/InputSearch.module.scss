@@ -1,4 +1,4 @@
-// InputSearch.module.scss
+@import '../../styles/varibales';
 
 .inputSearchWrapper {
   .searchListWrapper {
@@ -10,17 +10,17 @@
 
     .listItem {
       padding: 10px;
-      border-bottom: 1px solid rgba(128, 128, 128, 0.055);
-      background-color: rgba(116, 116, 116, 0.1);
+      border-bottom: 1px solid var(--border-color-lighter);
+      background-color: var(--background-color-input);
 
       &:hover {
         cursor: pointer;
-        background-color: rgba(116, 116, 116, 0.25);
+        background-color: var(--background-color-input-hover);
       }
     }
   }
   .errorMessage {
-    color: red;
+    color: var(--error-color);
     font-size: 12px;
   }
 
@@ -32,7 +32,7 @@
     .loader {
       width: 18px;
       height: 18px;
-      border: 1px solid rgba(116, 116, 116);
+      border: 1px solid var(--border-color);
       border-bottom-color: transparent;
       border-radius: 50%;
       display: inline-block;
@@ -53,17 +53,5 @@
       font-size: 10px;
       font-style: italic;
     }
-  }
-}
-
-.listItem {
-  padding: 10px;
-  border-bottom: 1px solid rgba(128, 128, 128, 0.055);
-  background-color: rgba(116, 116, 116, 0.1);
-  transition: background-color 0.3s;
-
-  &:hover {
-    cursor: pointer;
-    background-color: rgba(116, 116, 116, 0.25);
   }
 }
