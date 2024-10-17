@@ -7,11 +7,13 @@ import { FixedSizeList as List } from 'react-window';
 
 import styles from './InputSearch.module.scss';
 import { InputProps, UsStatesProps } from '../../types/interfaces.ts';
+import { useAutocomlpeteDataStore } from '../../store/autocompleteDataStore.ts';
 
 export default function InputSearch({ typeOfSearch, onSubmit }: InputProps) {
   const [searchValueStates, setSearchValueStates] = useState<string>('');
   const [searchValueUsers, setSearchValueUsers] = useState<string>('');
   const [filteredStates, setFilteredStates] = useState<UsStatesProps[]>([]);
+  const triggerReset = useAutocomlpeteDataStore((state) => state.triggerReset);
 
   const {
     data: usStates = [],
@@ -43,6 +45,11 @@ export default function InputSearch({ typeOfSearch, onSubmit }: InputProps) {
       refetchStates();
     }
   }, [searchValueUsers, typeOfSearch, filteredStates]);
+
+  useEffect(() => {
+    setSearchValueStates('');
+    setSearchValueUsers('');
+  }, [triggerReset]);
 
   const handleOnType = useCallback(
     throttle((e: React.ChangeEvent<HTMLInputElement>) => {

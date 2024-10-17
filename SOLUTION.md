@@ -2,18 +2,25 @@
 
 <!-- You can include documentation, additional setup instructions, notes etc. here -->
 
-The project structure is simple. Main folder is /src.
+Project Structure
+The main directory for the codebase is /src, which is organized into the following subdirectories:
 
-It consists:
+/components
+Contains all reusable components used throughout the project.
 
-./components - Here are all reusable components
+/features
+Currently includes only one component, the Dashboard, which has its own route defined in App.js.
 
-./features - Here is only one component - for Dashboard with has his own path in App.js
+/hooks
+Contains custom hooks created for the project. Currently, two hooks are defined:
+One for fetching data related to US states.
+Another for fetching GitHub user data.
 
-./hooks - Here are project custtom hooks. So far there are two - for fetching data for US states and for fetching data for github users
+/store
+Contains the state management store. At the moment, it manages user preferences, which are stored locally in the browser's local storage. For better scalability and persistence, storing these preferences on a server would be a preferable option.
 
-./store - Here is state managment store - so far is only for users preferences. I keep them in local storage as well but best option is to store them on server as well.
+/types
+Includes all of the TypeScript interfaces and enums used across the project to ensure type safety and better development experience.
 
-./types - Here are most of interfaces and enums that are used in the project.
-
-./utils - Here are some custom functions which could be reused
+/utils
+Houses custom utility functions that are designed to be reusable across different parts of the project.

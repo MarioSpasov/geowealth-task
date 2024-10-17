@@ -1,5 +1,6 @@
 export interface AutocomlpeteDataStore {
   autocompletePrefs: PrefsValuesProps;
+  triggerReset: boolean;
   setStateOrUser: (autocompleteName: string, stateOrUserToggle: string) => void;
   setAutocompletePrefs: (prefs: PrefsValuesProps) => void;
   setPrefsFromsStorage: (prefs: PrefsValuesProps) => void;
@@ -44,4 +45,8 @@ export interface SearchHistoryProps {
 export interface HistoryListProps {
   text: string;
   id: string;
+}
+export interface ResetInputProps {
+  resetStates: (resetValue: string) => void;
+  resetUsers: (resetValue: string) => void;
 }

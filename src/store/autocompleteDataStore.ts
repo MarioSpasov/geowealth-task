@@ -8,6 +8,7 @@ enum AutocompleteOptions {
 
 const initialValues = {
   autocompletePrefs: {} as PrefsValuesProps,
+  triggerReset: false,
 };
 
 // Save to local storage
@@ -89,8 +90,10 @@ export const useAutocomlpeteDataStore = create<AutocomlpeteDataStore>(
         };
         updatedPrefs[autocompleteName].statesHistory.length = 0;
         updatedPrefs[autocompleteName].usersHistory.length = 0;
+        updatedPrefs[autocompleteName].stateOrUserToggle =
+          AutocompleteOptions.State;
         saveToLocalStorage('autocompletePrefs', updatedPrefs);
-
+        state.triggerReset = !state.triggerReset;
         return {
           autocompletePrefs: updatedPrefs,
         };
