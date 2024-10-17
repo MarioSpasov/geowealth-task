@@ -3,7 +3,7 @@ export enum AutocompleteOptions {
   User = 'User',
 }
 
-export enum AutocompleteUseage {
+export enum AutocompleteUsage {
   FirstAutoComlpete = 'firstAutoComlpete',
   SecondAutoComlpete = 'secondAutoComlpete',
   ThirdAutoComlpete = 'thirdAutoComlpete',
